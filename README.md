@@ -9,3 +9,5 @@ HTML tags:
 
 
 Annen info til felles: 
+
+- Vi må huske å gjøre repositoriet "public"
