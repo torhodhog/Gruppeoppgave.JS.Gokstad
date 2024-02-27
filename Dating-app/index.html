@@ -7,7 +7,34 @@
    <title>Gokstad Dating</title>
 </head>
 <body>
+   <div class="logo-container">
+      <img class="logo" src="/Dating-app/Assets/dating-logo.png" alt="logo">
+   </div>
    
-   <script src="script.js"></script>
-</body>
+   
+   <div class="main-content">
+      <div id="user-container" class="user-container"></div>
+      
+      <!-- Venstre swiper -->
+      <button onclick="swipeLeft()" class="swiper left-swiper"><h1><</h1></button>
+      
+      <!-- Høyre swiper -->
+      <button onclick="swipeRight()" class="swiper right-swiper"><h1>></h1></button>
+      
+      <div class="gender-btns">
+          <button onclick="menBtn()"><img src="/Dating-app/Assets/venus.png" class="btn" alt="venus"></button>
+          <button onclick="womanBtn"><img src="/Dating-app/Assets/mars.png" class="btn" alt="mars"></button>
+          <button onclick="bothBtn()"><img src="/Dating-app/Assets/both.png" class="btn" alt="begge"></button>
+      </div>
+   </div>
+   
+   <div class="like-list">
+      <ul>
+         
+      </ul>
+   </div>
+   
+      <script src="https://kit.fontawesome.com/ec810b190a.js" crossorigin="anonymous"></script>
+      <script src="script.js"></script>
+   </body>
 </html>
