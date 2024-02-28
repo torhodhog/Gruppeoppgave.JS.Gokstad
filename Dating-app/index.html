@@ -1,51 +1,61 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Gokstad Dating</title>
+    <title>Dating-app</title>
   </head>
   <body>
-    <div class="logo-container">
-      <img class="logo" src="/Dating-app/Assets/dating-logo.png" alt="logo" />
-    </div>
+    <title>User Points</title>
+  </head>
+  <body>
+    <h3>Gokstad Dating</h3>
+    <div id="random-user-card"></div>
+    <script>
+      let points = 10;
 
-    <div class="main-content">
-      <div id="user-container" class="user-container"></div>
+      function swipeLeft() {
+        points--;
+        checkPoints();
+      }
 
-      <!-- Venstre swiper -->
-      <button onclick="swipeLeft()" class="swiper left-swiper">
-        <h1><</h1>
-      </button>
+      function swipeRight() {
+        points--;
+        checkPoints();
+      }
 
-      <!-- Høyre swiper -->
-      <button onclick="swipeRight()" class="swiper right-swiper">
-        <h1>></h1>
-      </button>
+      function checkPoints() {
+        if (points <= 0) {
+          const response = prompt("Vil du swipe mer? ja/nei");
+          if (response && response.toLowerCase() === "ja") {
+            points = 10;
+          } else {
+            points = 0;
+           checkPoints();
+          }
+        }
+      }
 
-      <div class="gender-btns">
-        <button onclick="menBtn()">
-          <img src="/Dating-app/Assets/venus.png" class="btn" alt="venus" />
-        </button>
-        <button onclick="womanBtn">
-          <!--should we call it women/plural, since we use men and not man?-->
-          <img src="/Dating-app/Assets/mars.png" class="btn" alt="mars" />
-        </button>
-        <button onclick="bothBtn()">
-          <img src="/Dating-app/Assets/both.png" class="btn" alt="begge" />
-        </button>
-      </div>
-    </div>
+      function showUsercard() {
+        const randomUserCard = document.getElementById("random-user-card");
+//dette kan endres, men det er mest for at det skal synes akkurat nå:
+        randomUserCard.style.backgroundColor = "lightblue";
+        randomUserCard.style.width = "500px";
+        randomUserCard.style.height = "500px";
+        randomUserCard.style.border = "1px solid slate grey";
 
-    <div class="like-list">
-      <ul></ul>
-    </div>
+        const leftBtn = document.createElement("button");
+        leftBtn.addEventListener("click", swipeLeft);
+        leftBtn.innerHTML = "Swipe Left";
+        const rightBtn = document.createElement("button");
+        rightBtn.addEventListener("click", swipeRight);
+        rightBtn.innerHTML = "Swipe Right";
 
-    <script
-      src="https://kit.fontawesome.com/ec810b190a.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="script.js"></script>
+        randomUserCard.append(leftBtn, rightBtn);
+      }
+
+      // Husk å kalle på funksjonen!:
+      showUsercard();
+    </script>
   </body>
 </html>
