@@ -85,3 +85,33 @@ function checkPoints() {
 }
 
 fetchAndDisplayUserData();
+
+//funksjon for knapper når du sveiper til høyre:
+usersList.forEach((swipeRight, index)) => {
+  //Delete button:
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML = "slett";
+  deleteBtn.addEventListener("click", function () {
+    deleteUsersList(index);//make this function
+  })
+
+//Edit button:
+const editBtn = document.createElement("button");
+  editBtn.innerHTML = "rediger";
+  editBtn.addEventListener("click", function () {
+    editUsersList(index);//make this function 
+  })
+}
+//editUserList function:
+function editUsersList(index) {
+  const ranomUserRightEdit = JSON.parse(localStorage.getItem("usersList")) || []; //might have to call this constant something else
+  
+}
+//deleteUserList function:
+function deleteUsersList(index) {
+  const randomUserRightDelete = JSON.parse(localStorage.getItem("usersList")) || []; //might have to call this constant something else
+
+  usersList.splice(index, 1);
+  localStorage.setItem("usersList", JSON.stringify(x));
+  showUserList(); //need to make this  function
+}
