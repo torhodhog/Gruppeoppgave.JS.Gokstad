@@ -37,7 +37,7 @@ function swipeLeft() {
   checkPoints();
   //Paster inn deduct i funksjonen:
   deductPoints();
-
+  //caller på hent og vis:
   fetchAndDisplayUserData();
 }
 
@@ -54,7 +54,7 @@ function swipeRight() {
       checkPoints();
       //paster inn deduct:
       deductPoints();
-
+      //caller på hent og vis:
       fetchAndDisplayUserData();
     })
     .catch((error) => {
@@ -86,32 +86,46 @@ function checkPoints() {
 
 fetchAndDisplayUserData();
 
-//funksjon for knapper når du sveiper til høyre:
-usersList.forEach((swipeRight, index)) => {
-  //Delete button:
-  const deleteBtn = document.createElement("button");
-  deleteBtn.innerHTML = "slett";
-  deleteBtn.addEventListener("click", function () {
-    deleteUsersList(index);//make this function
-  })
+//vis meg de valgte brukerne fra det lokale arrayet:
+function showSavedUsersList() {
+  console.log("lagrede brukere");
+  usersList = JSON.parse(localStorage.getItem("usersList")) || [];
+  savedUsersListContainer.innerHTML = ""; //need to call this something that is actually defined
+  localStorage.forEach((users, index) => {
+    const savedUsersListCard = document.createElement("div");
 
-//Edit button:
-const editBtn = document.createElement("button");
-  editBtn.innerHTML = "rediger";
-  editBtn.addEventListener("click", function () {
-    editUsersList(index);//make this function 
-  })
+    //funksjon for knapper når du sveiper til høyre:
+    usersList.forEach((swipeRight, index) => {
+      //Delete button:
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerHTML = "slett";
+      deleteBtn.addEventListener("click", function () {
+        deleteUsersList(index); //make this function
+      });
+
+      //Edit button:
+      const editBtn = document.createElement("button");
+      editBtn.innerHTML = "rediger";
+      editBtn.addEventListener("click", function () {
+        editUsersList(index); //make this function
+      });
+    });
+
+    //remember to append the buttons to the usercards!
+  });
 }
+
 //editUserList function:
 function editUsersList(index) {
-  const ranomUserRightEdit = JSON.parse(localStorage.getItem("usersList")) || []; //might have to call this constant something else
-  
+  const ranomUserRightEdit =
+    JSON.parse(localStorage.getItem("usersList")) || []; //might have to call this constant something else
 }
 //deleteUserList function:
 function deleteUsersList(index) {
-  const randomUserRightDelete = JSON.parse(localStorage.getItem("usersList")) || []; //might have to call this constant something else
+  const randomUserRightDelete =
+    JSON.parse(localStorage.getItem("usersList")) || []; //might have to call this constant something else
 
   usersList.splice(index, 1);
   localStorage.setItem("usersList", JSON.stringify(x));
-  showUserList(); //need to make this  function
+  showSavedUsersList(); //need to make this  function
 }
