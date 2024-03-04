@@ -64,6 +64,7 @@ function swipeRight() {
     });
 }
 
+//this list saves more than just my liked profiles...
 function displayLikedUsers() {
   const likedUsersList = document.querySelector("#like-list ul");
   likedUsersList.innerHTML = ""; // Tømmer listen først
