@@ -17,9 +17,11 @@ function displayUserData(data) {
   const div = document.createElement("div");
   div.className = user.gender === "female" ? "female" : "male";
   div.innerHTML = `
-    <img src="${user.picture.large}" alt="${user.name.first} ${user.name.last}"> 
-    <h1>${user.name.first} ${user.name.last}</h1> 
-    <p>${user.email}</p>
+           <img src="${user.picture.large}" alt="${user.name.first} ${user.name.last}"> 
+                <h1>${user.name.first} ${user.name.last}</h1> 
+                <p>${user.email}</p>
+                <p>Location: ${user.location.city}, ${user.location.country}</p>
+                <p>Age: ${user.dob.age}</p>
   `;
   profileContainer.appendChild(div);
 }
@@ -62,6 +64,33 @@ function swipeRight() {
     });
 }
 
+function displayLikedUsers() {
+  const likedUsersList = document.querySelector("#like-list ul");
+  likedUsersList.innerHTML = ""; // Tømmer listen først
+  usersList.forEach((user, index) => {
+    const li = document.createElement("li");
+    li.textContent = user;
+    likedUsersList.appendChild(li);
+
+    //Edit button:
+    const editBtn = document.createElement("button");
+    editBtn.innerHTML = "Rediger";
+    editBtn.addEventListener("click", function () {
+      editUserData(index);
+    });
+
+    //Prøver å lage knapp for å slette en like
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Slett";
+    deleteBtn.className = "delete-btn";
+    deleteBtn.onclick = () => deleteUser(index);
+
+    li.appendChild(editBtn);
+    li.appendChild(deleteBtn);
+    likedUsersList.appendChild(li);
+  });
+}
+
 //Paster inn poeng her:
 let points = 10;
 
@@ -86,46 +115,21 @@ function checkPoints() {
 
 fetchAndDisplayUserData();
 
-//vis meg de valgte brukerne fra det lokale arrayet:
-function showSavedUsersList() {
-  console.log("lagrede brukere");
-  usersList = JSON.parse(localStorage.getItem("usersList")) || [];
-  savedUsersListContainer.innerHTML = ""; //need to call this something that is actually defined
-  localStorage.forEach((users, index) => {
-    const savedUsersListCard = document.createElement("div");
-
-    //funksjon for knapper når du sveiper til høyre:
-    usersList.forEach((swipeRight, index) => {
-      //Delete button:
-      const deleteBtn = document.createElement("button");
-      deleteBtn.innerHTML = "slett";
-      deleteBtn.addEventListener("click", function () {
-        deleteUsersList(index); //make this function
-      });
-
-      //Edit button:
-      const editBtn = document.createElement("button");
-      editBtn.innerHTML = "rediger";
-      editBtn.addEventListener("click", function () {
-        editUsersList(index); //make this function
-      });
-    });
-
-    //remember to append the buttons to the usercards!
-  });
-}
-
 //editUserList function:
-function editUsersList(index) {
-  const ranomUserRightEdit =
-    JSON.parse(localStorage.getItem("usersList")) || []; //might have to call this constant something else
-}
-//deleteUserList function:
-function deleteUsersList(index) {
-  const randomUserRightDelete =
-    JSON.parse(localStorage.getItem("usersList")) || []; //might have to call this constant something else
+function editUserData(index) {
+  const newName = prompt("Skriv inn nytt navn");
+  const newLocation = prompt("Skriv in nytt område");
+  const newAge = promt("Skriv inn ny alder");
 
-  usersList.splice(index, 1);
-  localStorage.setItem("usersList", JSON.stringify(x));
-  showSavedUsersList(); //need to make this  function
+  if (newName !== null) {
+    usersList[index] = newName;
+    if (newLocation !== null) {
+      usersList[index] += ", " + newLocation;
+    }
+    if (newAge !== null) {
+      usersList[index] += ", " + newAge;
+    }
+  }
 }
+
+displayLikedUsers;
