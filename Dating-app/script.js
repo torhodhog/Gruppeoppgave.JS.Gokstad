@@ -58,6 +58,8 @@ function swipeRight() {
       deductPoints();
       //caller på hent og vis:
       fetchAndDisplayUserData();
+
+      displayLikedUsers();
     })
     .catch((error) => {
       console.error("Det oppstod en feil:", error);
@@ -131,5 +133,11 @@ function editUserData(index) {
   }
 }
 
-displayLikedUsers;
+function deleteUser(index) {
+  usersList.splice(index, 1); // Sletter brukeren fra listen
+  localStorage.setItem("usersList", JSON.stringify(usersList)); // Oppdaterer localStorage
+  displayLikedUsers(); // Oppdaterer listen som vises
+}
+
 fetchAndDisplayUserData();
+displayLikedUsers();
