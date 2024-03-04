@@ -24,7 +24,7 @@ function displayUserData(data) {
   profileContainer.appendChild(div);
 }
 
-let usersList = []; // Her lagres brukerne
+let usersList = JSON.parse(localStorage.getItem("usersList")) || []; // Global variabel
 
 //Paster inn deduct points function:
 function deductPoints() {
@@ -46,20 +46,40 @@ function swipeRight() {
     .then((response) => response.json())
     .then((data) => {
       const user = data.results[0];
-      let usersList = JSON.parse(localStorage.getItem("usersList")) || [];
       usersList.push(`${user.name.first} ${user.name.last}`);
       localStorage.setItem("usersList", JSON.stringify(usersList));
 
-      //paster inn checkPoints:
       checkPoints();
-      //paster inn deduct:
       deductPoints();
 
       fetchAndDisplayUserData();
+      displayLikedUsers();
     })
     .catch((error) => {
       console.error("Det oppstod en feil:", error);
     });
+}
+
+function displayLikedUsers() {
+  const likedUsersList = document.querySelector("#like-list ul");
+  likedUsersList.innerHTML = ""; // Tømmer listen først
+  usersList.forEach((user, index )=> {
+    const li = document.createElement("li");
+    li.textContent = user;
+    likedUsersList.appendChild(li);
+
+     //Prøver å lage knapp for å slette en like
+  const deleteBtn = document.createElement("button");
+  deleteBtn.textContent = "Slett";
+  deleteBtn.className = "delete-btn";
+  deleteBtn.onclick = () => deleteUser(index)
+
+  li.appendChild(deleteBtn);
+  likedUsersList.appendChild(li);
+  });
+
+
+ 
 }
 
 //Paster inn poeng her:
@@ -84,4 +104,11 @@ function checkPoints() {
   }
 }
 
+function deleteUser(index) {
+  usersList.splice(index, 1); // Sletter brukeren fra listen
+  localStorage.setItem("usersList", JSON.stringify(usersList)); // Oppdaterer localStorage
+  displayLikedUsers(); // Oppdaterer listen som vises
+}
+
 fetchAndDisplayUserData();
+displayLikedUsers();
