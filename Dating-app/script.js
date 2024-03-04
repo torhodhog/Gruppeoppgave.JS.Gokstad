@@ -114,8 +114,6 @@ function checkPoints() {
   }
 }
 
-fetchAndDisplayUserData();
-
 //editUserList function:
 function editUserData(index) {
   const newName = prompt("Skriv inn nytt navn");
@@ -134,3 +132,4 @@ function editUserData(index) {
 }
 
 displayLikedUsers;
+fetchAndDisplayUserData();
