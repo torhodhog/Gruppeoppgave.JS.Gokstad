@@ -7,24 +7,27 @@ function fetchAndDisplayUserData() {
       displayUserData(data);
     })
     .catch((error) => {
-      console.error("Error fetching user data:", error);
+      console.error("Får ikke hentet inn brukere:", error);
     });
 }
 
 function displayUserData(data) {
   const user = data.results[0];
+  activeUser = user;
   const profileContainer = document.getElementById("user-container");
   const div = document.createElement("div");
   div.className = user.gender === "female" ? "female" : "male";
   div.innerHTML = `
     <img src="${user.picture.large}" alt="${user.name.first} ${user.name.last}"> 
     <h1>${user.name.first} ${user.name.last}</h1> 
-    <p>${user.email}</p>
+    <p> Age: ${user.dob.age}</p>
+    <p>Mail: ${user.email}</p>
+    <p>City: ${user.location.city}</p>
   `;
   profileContainer.appendChild(div);
 }
 
-let usersList = JSON.parse(localStorage.getItem("usersList")) || []; // Global variabel
+let usersList = JSON.parse(localStorage.getItem("usersList")) || []; // Global variabel. Lagrer brukere som er likt
 
 //Paster inn deduct points function:
 function deductPoints() {
@@ -41,24 +44,20 @@ function swipeLeft() {
   fetchAndDisplayUserData();
 }
 
+
+// Hadde hentet inn APIet to ganger, så jeg endret dette. 
 function swipeRight() {
-  fetch("https://randomuser.me/api/?results=1")
-    .then((response) => response.json())
-    .then((data) => {
-      const user = data.results[0];
-      usersList.push(`${user.name.first} ${user.name.last}`);
-      localStorage.setItem("usersList", JSON.stringify(usersList));
+  if (activeUser) {
+    usersList.push(`${activeUser.name.first} ${activeUser.name.last}`);
+    localStorage.setItem("usersList", JSON.stringify(usersList));
+    displayLikedUsers();
+  }
 
-      checkPoints();
-      deductPoints();
-
-      fetchAndDisplayUserData();
-      displayLikedUsers();
-    })
-    .catch((error) => {
-      console.error("Det oppstod en feil:", error);
-    });
+  checkPoints();
+  deductPoints();
+  fetchAndDisplayUserData();
 }
+
 
 function displayLikedUsers() {
   const likedUsersList = document.querySelector("#like-list ul");
