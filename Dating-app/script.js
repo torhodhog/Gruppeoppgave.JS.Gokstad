@@ -26,7 +26,7 @@ function displayUserData(data) {
   profileContainer.appendChild(div);
 }
 
-let usersList = []; // Her lagres brukerne
+let usersList = JSON.parse(localStorage.getItem("usersList")) || []; //lagrer likte brukere
 
 //Paster inn deduct points function:
 function deductPoints() {
@@ -44,26 +44,15 @@ function swipeLeft() {
 }
 
 function swipeRight() {
-  fetch("https://randomuser.me/api/?results=1")
-    .then((response) => response.json())
-    .then((data) => {
-      const user = data.results[0];
-      let usersList = JSON.parse(localStorage.getItem("usersList")) || [];
-      usersList.push(`${user.name.first} ${user.name.last}`);
-      localStorage.setItem("usersList", JSON.stringify(usersList));
+  if (activeUser) {
+    usersList.push(`${activeUser.name.first} ${activeUser.name.last}`);
+    localStorage.setItem("usersList", JSON.stringify(usersList));
+    displayLikedUsers();
+  }
 
-      //paster inn checkPoints:
-      checkPoints();
-      //paster inn deduct:
-      deductPoints();
-      //caller på hent og vis:
-      fetchAndDisplayUserData();
-
-      displayLikedUsers();
-    })
-    .catch((error) => {
-      console.error("Det oppstod en feil:", error);
-    });
+  checkPoints();
+  deductPoints();
+  fetchAndDisplayUserData();
 }
 
 //this list saves more than just my liked profiles...
@@ -78,6 +67,7 @@ function displayLikedUsers() {
     //Edit button:
     const editBtn = document.createElement("button");
     editBtn.innerHTML = "Rediger";
+    editBtn.className = "edit-btn";
     editBtn.addEventListener("click", function () {
       editUserData(index);
     });
