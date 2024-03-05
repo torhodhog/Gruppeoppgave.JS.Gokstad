@@ -56,7 +56,6 @@ function swipeRight() {
   fetchAndDisplayUserData();
 }
 
-//this list saves more than just my liked profiles...
 function displayLikedUsers() {
   const likedUsersList = document.querySelector("#like-list ul");
   likedUsersList.innerHTML = ""; // Tømmer listen først
@@ -75,7 +74,7 @@ function displayLikedUsers() {
 
     //Prøver å lage knapp for å slette en like
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Slett";
+    deleteBtn.textContent = "Slett";MediaElementAudioSourceNode
     deleteBtn.className = "delete-btn";
     deleteBtn.onclick = () => deleteUser(index);
 
@@ -110,20 +109,29 @@ function checkPoints() {
 //editUserList function:
 function editUserData(index) {
   console.log("inne i editfunskjonen");
+  const user = usersList[index];
   const newName = prompt("Skriv inn nytt navn");
   const newLocation = prompt("Skriv in nytt område");
-  const newAge = promt("Skriv inn ny alder");
+  const newAge = prompt("Skriv inn ny alder");
 
   if (newName !== null) {
     console.log("newName", newName);
-    usersList[index] = newName;
-    if (newLocation !== null) {
-      usersList[index] += ", " + newLocation;
-    }
-    if (newAge !== null) {
-      usersList[index] += ", " + newAge;
-    }
+    user.name = newName;
   }
+  if (newLocation !== null) {
+    console.log("newLocation", newLocation);
+    user.location = newLocation;
+  }
+  if (newAge !== null) {
+    console.log("newAge", newAge);
+    user.age = newAge;
+  }
+
+  usersList[index] = user;
+
+  localStorage.setItem("usersList", JSON.stringify(usersList));
+
+  displayLikedUsers();
 }
 
 function deleteUser(index) {
