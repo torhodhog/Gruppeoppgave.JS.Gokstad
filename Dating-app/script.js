@@ -13,6 +13,7 @@ function fetchAndDisplayUserData() {
 
 function displayUserData(data) {
   const user = data.results[0];
+  activeUser = user;
   const profileContainer = document.getElementById("user-container");
   const div = document.createElement("div");
   div.className = user.gender === "female" ? "female" : "male";
@@ -39,7 +40,7 @@ function swipeLeft() {
   checkPoints();
   //Paster inn deduct i funksjonen:
   deductPoints();
-  //caller på hent og vis:
+  //caller på fetcAndDisplayUserdata:
   fetchAndDisplayUserData();
 }
 
@@ -108,11 +109,13 @@ function checkPoints() {
 
 //editUserList function:
 function editUserData(index) {
+  console.log("inne i editfunskjonen");
   const newName = prompt("Skriv inn nytt navn");
   const newLocation = prompt("Skriv in nytt område");
   const newAge = promt("Skriv inn ny alder");
 
   if (newName !== null) {
+    console.log("newName", newName);
     usersList[index] = newName;
     if (newLocation !== null) {
       usersList[index] += ", " + newLocation;
