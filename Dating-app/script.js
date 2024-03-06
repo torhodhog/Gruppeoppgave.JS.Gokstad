@@ -1,9 +1,13 @@
 let activeUser;
+let genderPreference = null;
 
 function fetchAndDisplayUserData(gender) {
+  if (gender && gender !== genderPreference) {
+    genderPreference = gender;
+  }
   let url = "https://randomuser.me/api/?results=1";
-  if (gender) {
-    url += `&gender=${gender}`;
+  if (genderPreference) {
+    url += `&gender=${genderPreference}`;
   }
 
   fetch(url)
@@ -181,6 +185,9 @@ function womenBtn() {
 function bothBtn() {
   fetchAndDisplayUserData();
 }
+document.getElementById("menBTN").addEventListener("click", menBtn);
+document.getElementById("womenBtn").addEventListener("click", womenBtn);
+document.getElementById("bothBtn").addEventListener("click", bothBtn);
 
 fetchAndDisplayUserData();
 displayLikedUsers();
