@@ -194,6 +194,7 @@ function womenBtn() {
 }
 
 function bothBtn() {
+  genderPreference = "";
   fetchAndDisplayUserData();
     document.getElementById("gender-preference").innerHTML =
       "Foretrukket kjønn: Begge";
