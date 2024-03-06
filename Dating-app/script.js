@@ -1,5 +1,10 @@
 let activeUser;
-let genderPreference = null;
+let genderPreference = "";
+  showGenderSelectionAlert();
+
+document.addEventListener("DOMContentLoaded", function () {
+  fetchAndDisplayUserData();
+});
 
 function fetchAndDisplayUserData(gender) {
   if (gender && gender !== genderPreference) {
@@ -26,6 +31,8 @@ function displayUserData(data) {
   const user = data.results[0];
   activeUser = user;
   const profileContainer = document.getElementById("user-container");
+profileContainer.innerHTML = "";
+
   const div = document.createElement("div");
   div.className = user.gender === "female" ? "female" : "male";
   div.innerHTML = `
@@ -134,6 +141,7 @@ function deleteUser(index) {
   usersList.splice(index, 1); // Sletter brukeren fra listen
   localStorage.setItem("usersList", JSON.stringify(usersList)); // Oppdaterer localStorage
   displayLikedUsers(); // Oppdaterer listen som vises
+
 }
 //oppdatert edit funksjon fra Torgeir:
 function editUserData(index) {
@@ -176,18 +184,31 @@ function editUserData(index) {
 
 function menBtn() {
   fetchAndDisplayUserData("male");
+  document.getElementById("gender-preference").innerHTML = "Foretrukket kjønn: Mann";
 }
 
 function womenBtn() {
   fetchAndDisplayUserData("female");
-}
+}  document.getElementById("gender-preference").innerHTML =
+  "Foretrukket kjønn: Kvinne";
 
 function bothBtn() {
   fetchAndDisplayUserData();
+    document.getElementById("gender-preference").innerHTML =
+      "Foretrukket kjønn: Begge";
 }
-document.getElementById("menBTN").addEventListener("click", menBtn);
+
+document.getElementById("menBtn").addEventListener("click", menBtn);
 document.getElementById("womenBtn").addEventListener("click", womenBtn);
 document.getElementById("bothBtn").addEventListener("click", bothBtn);
 
+function showGenderSelectionAlert() {
+  alert(
+    "venligst velg foretrukket kjønn til din datingprofil ved hjelp av kjønnssymbolene"
+  );
+}
+
 fetchAndDisplayUserData();
-displayLikedUsers();
+
+
+
