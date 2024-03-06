@@ -189,8 +189,9 @@ function menBtn() {
 
 function womenBtn() {
   fetchAndDisplayUserData("female");
-}  document.getElementById("gender-preference").innerHTML =
-  "Foretrukket kjønn: Kvinne";
+  document.getElementById("gender-preference").innerHTML =
+    "Foretrukket kjønn: Kvinne";
+}
 
 function bothBtn() {
   fetchAndDisplayUserData();
