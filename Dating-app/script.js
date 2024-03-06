@@ -13,7 +13,7 @@ function fetchAndDisplayUserData() {
 
 function displayUserData(data) {
   const user = data.results[0];
-  activeUser = user;
+  activeUser = user; //er dette riktig definert?
   const profileContainer = document.getElementById("user-container");
   const div = document.createElement("div");
   div.className = user.gender === "female" ? "female" : "male";
@@ -46,7 +46,7 @@ function swipeLeft() {
 
 function swipeRight() {
   if (activeUser) {
-    usersList.push(`${activeUser.name.first} ${activeUser.name.last}`);
+    usersList.push(`${activeUser.name.first} ${activeUser.name.last}`); // fix ths plz, hva lagres her?
     localStorage.setItem("usersList", JSON.stringify(usersList));
     displayLikedUsers();
   }
@@ -74,7 +74,8 @@ function displayLikedUsers() {
 
     //Prøver å lage knapp for å slette en like
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Slett";MediaElementAudioSourceNode
+    deleteBtn.textContent = "Slett";
+    MediaElementAudioSourceNode;
     deleteBtn.className = "delete-btn";
     deleteBtn.onclick = () => deleteUser(index);
 
@@ -109,7 +110,7 @@ function checkPoints() {
 //editUserList function:
 function editUserData(index) {
   console.log("inne i editfunskjonen");
-  const user = usersList[index];
+  const user = usersList[index]; //hva lagres her?
   const newName = prompt("Skriv inn nytt navn");
   const newLocation = prompt("Skriv in nytt område");
   const newAge = prompt("Skriv inn ny alder");
