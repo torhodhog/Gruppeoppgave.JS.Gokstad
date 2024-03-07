@@ -65,6 +65,9 @@ function swipeLeft() {
 // Hadde hentet inn APIet to ganger, så jeg endret dette.
 function swipeRight() {
   if (activeUser) {
+    if (usersList.lenght >= 10) {
+      alert("din liker-liste er full, slett en eller flere for å legge til nye profiler");
+    }
     usersList.push(activeUser);
     localStorage.setItem("usersList", JSON.stringify(usersList));
     displayLikedUsers();
