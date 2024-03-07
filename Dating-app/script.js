@@ -17,7 +17,7 @@ async function fetchAndDisplayUserData(gender) {
   }
 
   let url = "https://randomuser.me/api/?results=1";
-  if (genderPreference) {
+  if (genderPreference && genderPreference !== "both") {
     url += `&gender=${genderPreference}`;
   }
 
