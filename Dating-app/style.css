@@ -156,3 +156,13 @@ button {
    font-size: 50px; 
    font-weight: bold;
 }
+
+.gender-preference {
+  position: absolute;
+  top: 75%; /* Adjust this value as needed */
+  left: 38%;
+  width: 25%;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
