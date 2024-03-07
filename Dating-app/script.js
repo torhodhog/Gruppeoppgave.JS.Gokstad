@@ -1,9 +1,18 @@
 let activeUser;
+let genderPreference = "";
+showGenderSelectionAlert();
+
+document.addEventListener("DOMContentLoaded", function () {
+  fetchAndDisplayUserData();
+});
 
 function fetchAndDisplayUserData(gender) {
+  if (gender && gender !== genderPreference) {
+    genderPreference = gender;
+  }
   let url = "https://randomuser.me/api/?results=1";
-  if (gender) {
-    url += `&gender=${gender}`;
+  if (genderPreference) {
+    url += `&gender=${genderPreference}`;
   }
 
   fetch(url)
@@ -22,6 +31,8 @@ function displayUserData(data) {
   const user = data.results[0];
   activeUser = user;
   const profileContainer = document.getElementById("user-container");
+  profileContainer.innerHTML = "";
+
   const div = document.createElement("div");
   div.className = user.gender === "female" ? "female" : "male";
   div.innerHTML = `
@@ -54,6 +65,11 @@ function swipeLeft() {
 // Hadde hentet inn APIet to ganger, så jeg endret dette.
 function swipeRight() {
   if (activeUser) {
+    if (usersList.lenght >= 10) {
+      alert(
+        "din liker-liste er full, slett en eller flere for å legge til nye profiler"
+      );
+    }
     usersList.push(activeUser);
     localStorage.setItem("usersList", JSON.stringify(usersList));
     displayLikedUsers();
@@ -131,7 +147,7 @@ function deleteUser(index) {
   localStorage.setItem("usersList", JSON.stringify(usersList)); // Oppdaterer localStorage
   displayLikedUsers(); // Oppdaterer listen som vises
 }
-
+//oppdatert edit funksjon fra Torgeir:
 function editUserData(index) {
   const user = usersList[index];
   const li = document.querySelector(`#like-list ul li:nth-child(${index + 1})`);
@@ -172,15 +188,31 @@ function editUserData(index) {
 
 function menBtn() {
   fetchAndDisplayUserData("male");
+  document.getElementById("gender-preference").innerHTML =
+    "Foretrukket kjønn: Mann";
 }
 
 function womenBtn() {
   fetchAndDisplayUserData("female");
+  document.getElementById("gender-preference").innerHTML =
+    "Foretrukket kjønn: Kvinne";
 }
 
 function bothBtn() {
+  genderPreference = "";
   fetchAndDisplayUserData();
+  document.getElementById("gender-preference").innerHTML =
+    "Foretrukket kjønn: Begge";
+}
+
+document.getElementById("menBtn").addEventListener("click", menBtn);
+document.getElementById("womenBtn").addEventListener("click", womenBtn);
+document.getElementById("bothBtn").addEventListener("click", bothBtn);
+
+function showGenderSelectionAlert() {
+  alert(
+    "venligst velg foretrukket kjønn til din datingprofil ved hjelp av kjønnssymbolene"
+  );
 }
 
 fetchAndDisplayUserData();
-displayLikedUsers();
