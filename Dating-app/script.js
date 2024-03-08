@@ -22,6 +22,7 @@ async function fetchAndDisplayUserData(gender) {
   try {
     const response = await fetch(url); // Henter data fra APIet
     const data = await response.json(); // Konverterer responsen til JSON
+
     const profileContainer = document.getElementById("user-container"); // Henter ut div'en som skal vise brukerdata
     profileContainer.innerHTML = ""; // Tømmer div'en før vi legger til ny bruker
     displayUserData(data); // Kaller funksjonen som viser brukerdata
@@ -57,6 +58,8 @@ function deductPoints() {
   checkPoints();
 }
 
+
+
 function swipeLeft() {
   //paster inn checkPoints:
   checkPoints();
@@ -69,11 +72,8 @@ function swipeLeft() {
 // Hadde hentet inn APIet to ganger, så jeg endret dette.
 function swipeRight() {
   if (activeUser) {
-    if (usersList.length >= 10) {
-      // Rettet fra 'lenght' til 'length'
-      alert(
-        "Din liker-liste er full, slett en eller flere for å legge til nye profiler"
-      );
+    if (usersList.length >= 10) { // Rettet fra 'lenght' til 'length'
+      alert("Din liker-liste er full, slett en eller flere for å legge til nye profiler");
       return; // Avslutter funksjonen for å forhindre ytterligere tillegg
     }
     usersList.push(activeUser);
@@ -91,8 +91,9 @@ function displayLikedUsers() {
   const likedUsersList = document.querySelector("#like-list ul");
   likedUsersList.innerHTML = ""; // Tømmer listen først
   usersList.forEach((user, index) => {
-    if (user && user.name) {
-      // Sjekker om brukeren har et navn (for å unngå feil)
+
+    if (user && user.name) { // Sjekker om brukeren har et navn (for å unngå feil)
+
       const li = document.createElement("li"); // Lager et nytt listeelement
 
       const textContent = document.createElement("div"); // Lager en div for teksten

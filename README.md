@@ -1,2 +1,4 @@
 # Gruppeoppgave.JS.Gokstad
-Gruppeoppgave, Dating- og Hundepasser-app. Mari, Torgeir og Anette
+Gruppeoppgave, Dating- og Hundepasser-app. Mari, Torgeir
+
+
