@@ -2,12 +2,10 @@ let activeUser;
 let genderPreference = "";
 showGenderSelectionAlert();
 
-
 // Kjører når hele siden er lastet inn
 document.addEventListener("DOMContentLoaded", function () {
   fetchAndDisplayUserData(); // Henter og viser brukerdata ved oppstart
 });
-
 
 // Asynkron funksjon som henter brukerdata fra randomuser.me APIet
 async function fetchAndDisplayUserData(gender) {
@@ -21,10 +19,10 @@ async function fetchAndDisplayUserData(gender) {
     url += `&gender=${genderPreference}`;
   }
 
-
   try {
     const response = await fetch(url); // Henter data fra APIet
-    const data = await response.json(); // Konverterer responsen til JSON 
+    const data = await response.json(); // Konverterer responsen til JSON
+
     const profileContainer = document.getElementById("user-container"); // Henter ut div'en som skal vise brukerdata
     profileContainer.innerHTML = ""; // Tømmer div'en før vi legger til ny bruker
     displayUserData(data); // Kaller funksjonen som viser brukerdata
@@ -32,7 +30,6 @@ async function fetchAndDisplayUserData(gender) {
     console.error("Får ikke hentet inn brukere:", error); // Logger feilmelding til konsollen om noe går galt med henting av brukerdata
   }
 }
-
 
 // Funksjon som viser brukerdata
 function displayUserData(data) {
@@ -89,14 +86,14 @@ function swipeRight() {
   fetchAndDisplayUserData();
 }
 
-
-
 // Funksjon som viser brukere som er likt og lagret i localStorage
 function displayLikedUsers() {
   const likedUsersList = document.querySelector("#like-list ul");
   likedUsersList.innerHTML = ""; // Tømmer listen først
   usersList.forEach((user, index) => {
+
     if (user && user.name) { // Sjekker om brukeren har et navn (for å unngå feil)
+
       const li = document.createElement("li"); // Lager et nytt listeelement
 
       const textContent = document.createElement("div"); // Lager en div for teksten
