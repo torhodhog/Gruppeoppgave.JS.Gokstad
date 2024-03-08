@@ -1,40 +1,44 @@
 let activeUser;
 let genderPreference = "";
-  showGenderSelectionAlert();
+showGenderSelectionAlert();
 
+// Kjører når hele siden er lastet inn
 document.addEventListener("DOMContentLoaded", function () {
-  fetchAndDisplayUserData();
+  fetchAndDisplayUserData(); // Henter og viser brukerdata ved oppstart
 });
 
-function fetchAndDisplayUserData(gender) {
+// Asynkron funksjon som henter brukerdata fra randomuser.me APIet
+async function fetchAndDisplayUserData(gender) {
+  // Sjekker om brukeren har valgt et foretrukket kjønn
   if (gender && gender !== genderPreference) {
     genderPreference = gender;
   }
+
   let url = "https://randomuser.me/api/?results=1";
-  if (genderPreference) {
+  if (genderPreference && genderPreference !== "both") {
     url += `&gender=${genderPreference}`;
   }
 
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      const profileContainer = document.getElementById("user-container");
-      profileContainer.innerHTML = "";
-      displayUserData(data);
-    })
-    .catch((error) => {
-      console.error("Får ikke hentet inn brukere:", error);
-    });
+  try {
+    const response = await fetch(url); // Henter data fra APIet
+    const data = await response.json(); // Konverterer responsen til JSON
+    const profileContainer = document.getElementById("user-container"); // Henter ut div'en som skal vise brukerdata
+    profileContainer.innerHTML = ""; // Tømmer div'en før vi legger til ny bruker
+    displayUserData(data); // Kaller funksjonen som viser brukerdata
+  } catch (error) {
+    console.error("Får ikke hentet inn brukere:", error); // Logger feilmelding til konsollen om noe går galt med henting av brukerdata
+  }
 }
 
+// Funksjon som viser brukerdata
 function displayUserData(data) {
   const user = data.results[0];
   activeUser = user;
-  const profileContainer = document.getElementById("user-container");
-profileContainer.innerHTML = "";
+  const profileContainer = document.getElementById("user-container"); // Henter ut div'en som skal vise brukerdata, samme som i fetchAndDisplayUserData
+  profileContainer.innerHTML = ""; // Tømmer div'en før vi legger til ny bruker, på samme måte
 
   const div = document.createElement("div");
-  div.className = user.gender === "female" ? "female" : "male";
+  div.className = user.gender === "female" ? "female" : "male"; // Sjekker om det er mann eller dame, i forhold til fargene på kortene
   div.innerHTML = `
     <img src="${user.picture.large}" alt="${user.name.first} ${user.name.last}"> 
     <h1>${user.name.first} ${user.name.last}</h1> 
@@ -65,8 +69,12 @@ function swipeLeft() {
 // Hadde hentet inn APIet to ganger, så jeg endret dette.
 function swipeRight() {
   if (activeUser) {
-    if (usersList.lenght >= 10) {
-      alert("din liker-liste er full, slett en eller flere for å legge til nye profiler");
+    if (usersList.length >= 10) {
+      // Rettet fra 'lenght' til 'length'
+      alert(
+        "Din liker-liste er full, slett en eller flere for å legge til nye profiler"
+      );
+      return; // Avslutter funksjonen for å forhindre ytterligere tillegg
     }
     usersList.push(activeUser);
     localStorage.setItem("usersList", JSON.stringify(usersList));
@@ -78,17 +86,19 @@ function swipeRight() {
   fetchAndDisplayUserData();
 }
 
+// Funksjon som viser brukere som er likt og lagret i localStorage
 function displayLikedUsers() {
   const likedUsersList = document.querySelector("#like-list ul");
   likedUsersList.innerHTML = ""; // Tømmer listen først
   usersList.forEach((user, index) => {
     if (user && user.name) {
-      const li = document.createElement("li");
+      // Sjekker om brukeren har et navn (for å unngå feil)
+      const li = document.createElement("li"); // Lager et nytt listeelement
 
-      const textContent = document.createElement("div");
+      const textContent = document.createElement("div"); // Lager en div for teksten
       textContent.className = "text-content";
       textContent.innerHTML = `
-        <p>${user.name.first} ${user.name.last}</p>
+        <p>${user.name.first} ${user.name.last}</p> 
         <p>Age: ${user.dob.age}</p>
         <p>Mail: ${user.email}</p>
         <p>City: ${user.location.city}</p>
@@ -144,7 +154,6 @@ function deleteUser(index) {
   usersList.splice(index, 1); // Sletter brukeren fra listen
   localStorage.setItem("usersList", JSON.stringify(usersList)); // Oppdaterer localStorage
   displayLikedUsers(); // Oppdaterer listen som vises
-
 }
 //oppdatert edit funksjon fra Torgeir:
 function editUserData(index) {
@@ -187,7 +196,8 @@ function editUserData(index) {
 
 function menBtn() {
   fetchAndDisplayUserData("male");
-  document.getElementById("gender-preference").innerHTML = "Foretrukket kjønn: Mann";
+  document.getElementById("gender-preference").innerHTML =
+    "Foretrukket kjønn: Mann";
 }
 
 function womenBtn() {
@@ -199,8 +209,8 @@ function womenBtn() {
 function bothBtn() {
   genderPreference = "";
   fetchAndDisplayUserData();
-    document.getElementById("gender-preference").innerHTML =
-      "Foretrukket kjønn: Begge";
+  document.getElementById("gender-preference").innerHTML =
+    "Foretrukket kjønn: Begge";
 }
 
 document.getElementById("menBtn").addEventListener("click", menBtn);
@@ -214,6 +224,3 @@ function showGenderSelectionAlert() {
 }
 
 fetchAndDisplayUserData();
-
-
-
